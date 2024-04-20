@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/default2.xhtml">
+
+            <ui:define name="title">
+                EventPeak - Registered Events
+            </ui:define>
+
+            <ui:define name="content">
+                <f:event type="preRenderView" listener="#{customerManagedBean.initRegisteredEvents}"/>
+                <div class="container">
+                    <div class="content-header">
+                        <h1>My Event &nbsp; / &nbsp; Registered</h1>
+                    </div>
+                    <p>View your registered events</p>
+                    <br/><br/>
+
+                    <h:form id="delete-form">
+                        <div class="event-container">
+                            <ui:fragment rendered="#{empty customerManagedBean.registeredEvents}">
+                                <h2>No event found </h2>
+                            </ui:fragment>
+                            <ui:repeat value="#{customerManagedBean.registeredEvents}" var="event">
+                                <div class="card" style="background-color:#B6D0E2;">
+                                    <div class="myevent-info">
+                                        <div class="thumbnail-row">
+                                            <img class="myevent-thumbnail" src="data:image/png;base64, #{customerManagedBean.getImageContent(event.image)}" alt="Your Profile"/><br/>
+                                        </div>
+                                        <h3 style="margin-bottom:8px; margin-top:20px;">#{event.title}</h3>
+                                        <h6 style='color:grey'><i class="fa-solid fa-location-dot"></i> #{event.location}</h6>
+                                        <h5 class="desc-wrapper">
+                                            #{event.description}
+                                        </h5>
+                                        <br/>
+                                        <h6><h:outputText value="Event Date: &nbsp;"></h:outputText><h:outputText value="#{event.eventDate}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm:ss a" timeZone="Asia/Singapore"/>
+                                                </h:outputText></h6>
+                                        <h6><h:outputText value="Register by: &nbsp;"></h:outputText><h:outputText value="#{event.deadline}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm:ss a" timeZone="Asia/Singapore"/>
+                                                </h:outputText></h6>
+                                        <br/>
+                                        <h6>Created by: #{event.creator.name}</h6>
+                                        <br/>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

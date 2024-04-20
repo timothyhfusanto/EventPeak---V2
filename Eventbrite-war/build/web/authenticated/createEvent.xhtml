@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./../layout/default2.xhtml">
+
+            <ui:define name="title">
+                EventPeak - Create new event
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="container">
+                    <div class="content-header">
+                        <h1>Create new event</h1>
+                    </div>
+                    <p>Your event will be visible to others after created</p>
+                    <br/>
+                    <h6 style="margin-bottom:5px; color: red; font-weight:normal">* Required</h6>
+                    <br/>
+                    <h:form id="form" enctype="multipart/form-data" styleClass="create-event">
+                        <div class="card" style="padding:40px">
+                            <div class="mb-4">
+                                <img id="output" src="../resources/images/notavailable.png" alt="Image Preview" class="create-event-image"/>
+                            </div>
+                            <h:messages style="display:none"/>
+                            <ui:repeat value="#{facesContext.getMessageList()}" var="msg">
+                                <h:panelGroup>
+                                    <div class="alert #{msg.severity.ordinal eq 2 ? 'alert-danger' : 'alert-success'} alert-dismissible fade show" role="alert">
+                                        <i class="#{msg.severity.ordinal eq 2 ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-circle-check'}"></i> <span style="font-weight:bold">#{msg.summary}.</span> #{msg. detail}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </h:panelGroup>
+                            </ui:repeat>
+                            <div class="mb-4">
+                                <label for="formFile" class="form-label">Thumbnail</label>
+                                <h:inputFile onchange="loadFile(event)" value="#{customerManagedBean.eventFile}" class="form-control" id="formFile"/>  
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h:inputText required="true" requiredMessage="Title is required" a:placeholder="Enter title *" id="title"  value="#{customerManagedBean.title}" class="form-control"/>                                
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h:inputTextarea a:placeholder="Enter description" id="desc" value="#{customerManagedBean.description}" class="form-control"/>
+                            </div>
+                            
+                            <div class="mb-4">
+                                 <h:inputText a:placeholder="Enter location *" id="location" requiredMessage="Location is required" required="true" value="#{customerManagedBean.location}" class="form-control"/>                    
+                            </div>
+                            <div class="mb-4 row">
+                                <div class="col-6">
+                                    <div id="datetimepicker" class="input-group date" data-target-input="nearest">                             
+                                        <h:inputText class="form-control datetimepicker-input" id="eventDate" value="#{customerManagedBean.eventDate}" a:placeholder="Enter event date *" converterMessage="Event date format should be (dd/mm/yyyy hh:mm:ss a)" required="true" requiredMessage="Event date is required">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss a" timeZone="Asia/Singapore"/>
+                                        </h:inputText> 
+                                        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                            <div class="input-group-text d-block bg-white" ><i class="fas fa-calendar"></i></div>
+                                        </div>
+                                   </div>              
+                                </div>
+                                
+                                <div class="col-6">
+                                    <div id="datetimepicker2" class="input-group date" data-target-input="nearest">                             
+                                        <h:inputText class="form-control datetimepicker-input" id="deadline" value="#{customerManagedBean.deadline}" a:placeholder="Enter deadline *" converterMessage="Deadline format should be (dd/mm/yyyy hh:mm:ss a)" required="true" requiredMessage="Deadline is required">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss" timeZone="Asia/Singapore"/>
+                                        </h:inputText> 
+                                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                            <div class="input-group-text d-block bg-white" ><i class="fas fa-calendar"></i></div>
+                                        </div>
+                                   </div>             
+                                </div>         
+                            </div>
+                           
+                            <div class="bg-white" style="margin-top:30px; display: flex; align-items: flex-end; justify-content: flex-end">
+                                <h:commandButton class="btn btn-primary" style="width:25%; font-weight:bold;" action="#{customerManagedBean.addEvent}" value="+ Create event"></h:commandButton>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+                <script>
+                    var loadFile = function(event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                          URL.revokeObjectURL(output.src);
+                        };
+                    };
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

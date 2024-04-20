@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./layout/default2.xhtml">
+
+            <ui:define name="title">
+                Login to EventPeak
+            </ui:define>
+            
+            <ui:define name="content">
+                <div class="login">
+                    <h:form id="form" enctype="multipart/form-data">
+                        <h1 style="text-align: center;">Login to EventPeak</h1>
+                        <h6 style="margin-bottom:5px; margin-top:20px; color: red; font-weight:normal;">* Required</h6>
+                        <div class="card" style="padding:24px">
+                            <h:messages class="alert alert-danger" style="padding-left:30px"/>
+                            <div class="mb-3">
+                                <h:inputText a:autofocus="true" a:placeholder="Email *" validatorMessage="Email format is invalid" required="true" requiredMessage="Email is required" value="#{customerManagedBean.email}" class="form-control input-font">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </h:inputText>
+                            </div>
+                            <div class="mb-3">
+                                <h:inputSecret a:placeholder="Password *" required="true" requiredMessage="Password is required" value="#{customerManagedBean.password}" class="form-control input-font"/>
+                            </div>
+                           <div class="bg-white mt-4">
+                               <h:commandButton class="btn btn-primary form-control" action="#{customerManagedBean.login}" value="Login"></h:commandButton>
+                           </div>
+                        </div>
+                    </h:form>
+                    <p class="mt-3" style="text-align:center">Don't have an account yet? Register <strong><a href="signUp.xhtml">Here</a></strong></p>
+                </div>
+                
+                
+             </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

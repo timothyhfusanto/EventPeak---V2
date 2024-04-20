@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/default2.xhtml">
+
+            <ui:define name="title">
+                EventPeak - Event #{customerManagedBean.selectedEvent.title} Detail
+            </ui:define>
+
+            <ui:define name="content">
+                <f:metadata>
+                    <f:viewParam name="eventId" value="#{customerManagedBean.eventId}" />
+                    <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedEvent}"/>
+                </f:metadata>
+                <div class="container">
+                    <div class="content-header">
+                        <h1>Event #{customerManagedBean.selectedEvent.title} detail</h1>
+                        <p>See the detail of the following event</p>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-12">
+                            <img class="event-detail-image" src="data:image/png;base64, #{customerManagedBean.getImageContent(customerManagedBean.selectedEvent.image)}" alt="Your Profile"/><br/>
+                        </div>
+                    </div>
+                    <br/><br/>
+
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>#{customerManagedBean.selectedEvent.title}</h2>
+                        </div>
+                        <div class="col-6"> 
+                            <h2 style="color:grey"><i class="fa-solid fa-location-dot"></i> #{customerManagedBean.selectedEvent.location}</h2>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-12"> <h4>#{customerManagedBean.selectedEvent.description}</h4></div>
+                    </div>
+                    <br/><br/><br/>
+
+
+                    <div class="row">
+                        <div class="col-4"> <h4>Event Date</h4></div>
+                        <div class="col-8"> 
+                            <h4>
+                                <h:outputText value="#{customerManagedBean.selectedEvent.eventDate}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm:ss a" timeZone="Asia/Singapore"/>
+                                </h:outputText>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"> <h4>Deadline to register</h4></div>
+                        <div class="col-8"> 
+                            <h4>
+                                <h:outputText value="#{customerManagedBean.selectedEvent.deadline}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm:ss a" timeZone="Asia/Singapore"/>
+                                </h:outputText>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

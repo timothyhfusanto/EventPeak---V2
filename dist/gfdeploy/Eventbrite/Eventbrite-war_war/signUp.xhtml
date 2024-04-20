@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./layout/default2.xhtml">
+
+            <ui:define name="title">
+                Create new account - EventPeak
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="signup">
+                    <h:form id="form" enctype="multipart/form-data">
+                        <h1 style="text-align: center;">Sign up to EventPeak</h1>
+                        <h6 style="margin-bottom:5px; margin-top:20px; color: red; font-weight:normal;">* Required</h6>
+                        <div class="card" style="padding:24px; max-width: 700px;">
+                            <div class="mb-4" style="display:flex; align-items:center; justify-content: center">
+                                <img id="output" src="resources/images/pro.jpeg" alt="Image Preview" class="profile"/>
+                            </div>
+                            <h:messages class="alert alert-danger" style="padding-left:30px"/>
+                            <div class="mb-3">
+                                <h:inputFile onchange="loadFile(event)" value="#{customerManagedBean.file}" class="form-control" id="formFile"/>  
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h:inputText required="true" requiredMessage="Name is required" a:placeholder="Name *" id="name"  value="#{customerManagedBean.name}" class="form-control"/>                    
+                                
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-lg-4 col-sm-12">
+                                    <h:selectOneMenu class="form-select" value="#{customerManagedBean.gender}">
+                                        <f:selectItem itemValue="1" itemLabel="Female" />
+                                        <f:selectItem itemValue="2" itemLabel="Male" /> 
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-lg-8 col-sm-12">
+                                    <div id="datepicker" class="input-group date">                             
+                                        <h:inputText class="form-control" id="dob" value="#{customerManagedBean.dob}" a:placeholder="Date of birth * (dd/mm/yyyy)" converterMessage="DOB format should be (dd/mm/yyyy)" required="true" requiredMessage="DOB is required">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Asia/Singapore"/>
+                                        </h:inputText> 
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-white d-block">
+                                                <i class="bi-calendar"></i>
+                                            </span>
+                                        </span> 
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                 <h:inputText a:placeholder="Phone number *" id="phone" requiredMessage="Phone number is required" required="true" value="#{customerManagedBean.phone}" class="form-control"/>                    
+                            </div>
+                            <div class="mb-3">
+                                <h:inputText requiredMessage="Email address is required" a:placeholder="Email address *" required="true" id="email" value="#{customerManagedBean.email}" class="form-control">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </h:inputText>                   
+                                
+                            </div>
+                            <div class="mb-3">
+                                 <h:inputSecret id="password" a:placeholder="Password *" requiredMessage="Password is required" required="true" value="#{customerManagedBean.password}" class="form-control"/>                    
+                            </div>
+                               
+                            <div class="bg-white mt-4">
+                                <h:commandButton class="btn btn-primary form-control" action="#{customerManagedBean.addCustomer}" value="Register"></h:commandButton>
+                            </div>
+                        </div>
+                        
+                    </h:form>
+                    
+                </div>
+                <p class="mt-3" style="text-align:center">Already have an account? Login <strong><a href="index.xhtml">Here</a></strong></p>
+                
+                
+                <script>
+                    var loadFile = function(event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                          URL.revokeObjectURL(output.src);
+                        };
+                    };
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

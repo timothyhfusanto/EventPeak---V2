@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        
+        <ui:composition template="./../layout/default2.xhtml">
+
+            <ui:define name="title">
+                EventPeak - Edit Profile
+            </ui:define>
+
+            <ui:define name="content">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{customerManagedBean.loadCurrCustomer}"/>
+                </f:metadata>
+                <div class="container">
+                    <div class="content-header">
+                        <h1>
+                            Edit Profile
+                        </h1>
+                        <p>Edit your public profile</p>
+                    </div>
+                    <br/><br/>
+
+                    <h:form id="form" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                                <div style="display: flex; align-items: center; justify-content: center">
+                                    <img id="output" class="profile myprofile" src="data:image/png;base64, #{customerManagedBean.getImageContent(customerManagedBean.currCustomer.image)}" alt="Your Profile"/><br/>
+                                </div>
+                                <br/>
+                                <div style="display: flex; align-items: center; justify-content: center; margin-top:20px">
+                                    <h:outputLabel for="uploadImage" style="margin-right:8px" id="custom-button" class="btn btn-primary">Upload new photo</h:outputLabel>
+                                    <h:inputFile onchange="loadFile(event)" style="display:none" id="uploadImage" value="#{customerManagedBean.file}"/>
+                                </div>
+                            </div>
+
+
+                            <div class="col-8">
+                                <h:messages style="display:none"/>
+                                <div class="row mb-3">
+                                    <div class="col-8">
+                                        <ui:repeat value="#{facesContext.getMessageList()}" var="msg">
+                                            <h:panelGroup>
+                                                <div class="alert #{msg.severity.ordinal eq 2 ? 'alert-danger' : 'alert-success'} alert-dismissible fade show" role="alert">
+                                                    <i class="#{msg.severity.ordinal eq 2 ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-circle-check'}"></i> <span style="font-weight:bold">#{msg.summary}.</span>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </h:panelGroup>
+                                        </ui:repeat>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-4">  
+                                        <h6 style="color:grey">Public Profile </h6>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-4"> <h4>Name</h4></div>
+                                    <div class="col-4"> 
+                                        <h4><h:inputText class="form-control" id="name" value="#{customerManagedBean.name}" required="true" requiredMessage="Name is required"/></h4>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-4"> <h4>Phone</h4></div>
+                                    <div class="col-4"> 
+                                        <h4><h:inputText class="form-control" id="phone" value="#{customerManagedBean.phone}" required="true" requiredMessage="Phone is required"/></h4>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-4"> <h4>Gender</h4></div>
+                                    <div class="col-4" >
+                                        <h4>
+                                            <h:selectOneMenu class="form-select" value="#{customerManagedBean.gender}">
+                                                <f:selectItem itemValue = "1" itemLabel = "Female" />
+                                                <f:selectItem itemValue = "2" itemLabel = "Male" />
+                                            </h:selectOneMenu>
+                                        </h4>          
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-4"> <h4>Date of Birth</h4></div>
+                                    <div class="col-4"> 
+                                        <div id="editdatepicker" class="input-group date">
+                                            <h:inputText class="form-control" id="dob" value="#{customerManagedBean.dob}" a:placeholder="Date of birth (dd/mm/yyyy)" converterMessage="DOB format should be (dd/mm/yyyy)" required="true" requiredMessage="DOB is required">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Asia/Singapore"/>
+                                            </h:inputText> 
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-white d-block">
+                                                    <i class="bi-calendar"></i>
+                                                </span>
+                                            </span> 
+                                       </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div class="row" style="margin-bottom:8px">
+                                    <div class="col-12">
+                                        <h6 style="color:grey">Personal Information</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4"> <h4>Email</h4></div>
+                                    <div class="col-4">                                 
+                                        <h4><h:inputText class="form-control" id="email" disabled="true" value="#{customerManagedBean.email}" required="true" requiredMessage="Email is required"/></h4>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row mt-4">
+                                    <div class="col-8" style="display: flex; align-items: flex-end; justify-content: flex-end">
+                                        <h:commandButton value="Save Profile" styleClass="btn btn-primary" action="#{customerManagedBean.updateCustomer}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+                <script>
+                    var loadFile = function(event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                          URL.revokeObjectURL(output.src);
+                        };
+                    };
+                    
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
